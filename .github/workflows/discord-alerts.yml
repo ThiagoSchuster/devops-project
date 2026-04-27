@@ -1,0 +1,19 @@
+name: Discord Alerts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord alert
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\":\"✅ Um novo merge foi realizado na branch main do repositório ${{ github.repository }}.\"}" \
+               "$DISCORD_WEBHOOK_URL"
